@@ -5,12 +5,15 @@
   "main": "index.js",
   "repository": "alex-e-leon/require-source-filepath",
   "scripts": {
-    "test": "ava"
+    "test": "nyc ava",
+    "coverage": "nyc report --reporter=text-lcov > coverage.lcov && codecov"
   },
   "author": "alex leon <alex@leon.st>",
   "license": "ISC",
   "devDependencies": {
-    "ava": "^1.0.1"
+    "ava": "^1.0.1",
+    "codecov": "^3.1.0",
+    "nyc": "^13.1.0"
   },
   "keywords": [
     "require",
