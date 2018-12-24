@@ -1,0 +1,5 @@
+Add testing framework and write actual tests (mocha?)
+Make sure babel-register + ignore-styles are included?
+Re-work API to be more useable
+Add readme + other testing stuff?
+Add pruning to avoid checking tree if no exports are part of our original definition

@@ -4,8 +4,11 @@
   "description": "requires a module and returns the filepaths of each exported modules source",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "ava"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "ava": "^1.0.1"
+  }
 }

@@ -1,28 +1,12 @@
 // require('@babel/register');
 // require('ignore-styles');
 
-// Search through module.children recursively + reference check function/object definitions
-const mapImports = entry => {
-  const exportPaths = {};
-  const exportValues = {};
+const getSourcePath = imports => {
   const checkedModules = [];
-  let entryModulePoint;
+  const entry = module.parent;
+  const exportPaths = Array(imports.length).fill(entry.filename);
 
-  require(entry);
-
-  // get the module we just required out of the module object
-  module.children.forEach(child => {
-    if (child.filename === require.resolve(entry)) {
-      entryModulePoint = child;
-    }
-  });
-
-  // get all exported values from the required module and setup variables
-  Object.entries(entryModulePoint.exports).forEach(([key, value]) => {
-    exportValues[key] = value;
-    exportPaths[key] = entryModulePoint.filename;
-  });
-
+  // Uses backtracking DFS to traverse dependency tree (an acyclic directional graph)
   const checkModuleChildren = module => {
     // early exit if we have already checked this module - avoid's hanging on circular dependencies
     if (checkedModules.find(checkedModule => checkedModule === module.filename) !== undefined) {
@@ -31,13 +15,16 @@ const mapImports = entry => {
 
     checkedModules.push(module.filename);
 
-    Object.entries(module.exports).forEach(([key, value]) => {
+    imports.forEach((importValue, index) => {
       // if one of the exports matches the original module exports, update the path
       // since this is a recursive breadth first search the last time we find the export should be the original
       // definition
-      const match = Object.entries(exportValues).find(([, exportValue]) => exportValue === value);
-      if (match !== undefined) {
-        exportPaths[match[0]] = module.filename;
+      const match = Object.entries(module.exports).findIndex(([key, value]) => importValue === value);
+      // if (module.filename === '/Users/alex.leon/programming/oss/require-sourcepath/test/fixtures/types/index.js') {
+        // console.log(index, module.filename, Object.entries(module.exports).find(([key, value]) => importValue === value), match );
+      // }
+      if (match !== -1) {
+        exportPaths[index] = module.filename;
       }
     });
 
@@ -46,17 +33,15 @@ const mapImports = entry => {
       checkModuleChildren(child);
     });
 
-    // pop the path from the stack
+    // pop the path from the stack to continue backtracking
     checkedModules.pop();
   };
 
-  entryModulePoint.children.forEach(child => {
+  entry.children.forEach(child => {
     checkModuleChildren(child);
   });
 
   return exportPaths;
 };
 
-const importPaths = mapImports('./test/index.js');
-
-console.log(importPaths);
+module.exports = getSourcePath;
