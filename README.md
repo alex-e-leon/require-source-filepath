@@ -2,6 +2,10 @@
 
 Finds the absolute filepath to the original sourcecode that defines a value in node.
 
+You may want to use this package if you're looking to do code introspection. When you import or require a file, it often
+isn't the file that actually defines the sourcecode for the variable you've just imported.
+This package lets you get the filepaths for the original source of your imported values.
+
 ## Usage
 
 ```js
@@ -10,15 +14,13 @@ $ npm install require-source-filepath
 const findSourcepath = require('require-source-filepath');
 const { value1, value2 } = require('./values');
 const { value3 } = require('values');
-const value4 = {};
 
-const paths = findSourcepath([value1, value2, value3, value4]);
+const paths = findSourcepath([value1, value2, value3]);
 
 // paths = [
 //   'path/to/original/sourcefile/of/value1',
 //   'path/to/original/sourcefile/of/value2',
 //   'path/to/original/sourcefile/of/value3',
-//   'path/to/this/file',
 // ]
 ```
 
