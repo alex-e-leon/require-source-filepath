@@ -1,6 +1,6 @@
 # require-source-filepath [![Build Status][build-badge]][build-status] [![Coverage Status][coverage-badge]][coverage-status]
 
-Finds the absolute filepath to the original sourcecode that defines a value in node.
+Finds the absolute file path to the original source code that defines a value in node.
 
 You may want to use this package if you're looking to do code introspection. When you import or require a file, it often
 isn't the file that actually defines the sourcecode for the variable you've just imported.
@@ -11,11 +11,11 @@ This package lets you get the filepaths for the original source of your imported
 ```js
 $ npm install require-source-filepath 
 
-const findSourcepath = require('require-source-filepath');
+const getSourcePath = require('require-source-filepath');
 const { value1, value2 } = require('./values');
 const { value3 } = require('values');
 
-const paths = findSourcepath([value1, value2, value3]);
+const paths = getSourcePath([value1, value2, value3]);
 
 // paths = [
 //   'path/to/original/sourcefile/of/value1',
@@ -34,7 +34,7 @@ returns the path of that file. It handles circular dependencies by traversing wi
 
 Due to its implementation and the data-structure of `module `,
 `require-source-filepath` may not always return the correct source file for any value types
-(number, string, bool etc.) and is not reccomended for their use.
+(number, string, bool etc.) and is not recommended for their use.
 
 If more than 2 files in the dependency tree export the same value type,
 `require-source-filepath` will return whichever file comes last in the dependency
