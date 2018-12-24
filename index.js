@@ -1,6 +1,3 @@
-// require('@babel/register');
-// require('ignore-styles');
-
 const getSourcePath = imports => {
   const checkedModules = [];
   const entry = module.parent;
