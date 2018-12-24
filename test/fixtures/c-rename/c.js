@@ -1,1 +1,1 @@
-module.exports.cOriginal = 'c';
+module.exports.cOriginal = {};

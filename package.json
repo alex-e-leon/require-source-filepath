@@ -1,14 +1,24 @@
 {
-  "name": "require-sourcepath",
+  "name": "require-source-filepath",
   "version": "1.0.0",
-  "description": "requires a module and returns the filepaths of each exported modules source",
+  "description": " Finds the absolute filepath to the original sourcecode of any defined value",
   "main": "index.js",
+  "repository": "alex-e-leon/require-source-filepath",
   "scripts": {
     "test": "ava"
   },
-  "author": "",
+  "author": "alex leon <alex@leon.st>",
   "license": "ISC",
   "devDependencies": {
     "ava": "^1.0.1"
-  }
+  },
+  "keywords": [
+    "require",
+    "source",
+    "filepath",
+    "node",
+    "sourcecode",
+    "defined",
+    "path"
+  ]
 }

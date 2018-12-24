@@ -12,26 +12,28 @@ const getSourcePath = imports => {
     if (checkedModules.find(checkedModule => checkedModule === module.filename) !== undefined) {
       return;
     }
-
     checkedModules.push(module.filename);
+
+    let foundMatch = false;
 
     imports.forEach((importValue, index) => {
       // if one of the exports matches the original module exports, update the path
       // since this is a recursive breadth first search the last time we find the export should be the original
       // definition
       const match = Object.entries(module.exports).findIndex(([key, value]) => importValue === value);
-      // if (module.filename === '/Users/alex.leon/programming/oss/require-sourcepath/test/fixtures/types/index.js') {
-        // console.log(index, module.filename, Object.entries(module.exports).find(([key, value]) => importValue === value), match );
-      // }
       if (match !== -1) {
         exportPaths[index] = module.filename;
+        foundMatch = true;
       }
     });
 
-    // recursively check module children
-    module.children.forEach(child => {
-      checkModuleChildren(child);
-    });
+    // prune the search if any modules don't include any of the exports we are looking for
+    // or recursively check module children if there was at least one match
+    if (foundMatch) {
+      module.children.forEach(child => {
+        checkModuleChildren(child);
+      });
+    }
 
     // pop the path from the stack to continue backtracking
     checkedModules.pop();
